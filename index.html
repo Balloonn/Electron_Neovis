@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+  <meta content="default-src 'self'; script-src 'self'">
+  <meta content="default-src 'self'; script-src 'self'">
+  <title>软件</title>
+  <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./style.css">
+  <!-- FIXME: load from dist -->
+  <script type="text/javascript" src="node_modules/neovis.js/dist/neovis.js"></script>
+
+
+  <script
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+          crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+  // define config car
+  // instantiate nodevis object
+  // draw
+
+  var viz;
+
+  //neovis绘图
+  function draw() {
+    var config = {
+      containerId: "viz",
+      neo4j: {
+        serverUrl: "bolt://localhost:7687",
+        serverUser: "neo4j",
+        serverPassword: "sorts-swims-burglaries"
+      },
+      labels: {
+        Character: {
+          label: "name",
+          value: "pagerank",
+          group: "community"
+        }
+      },
+      relationships: {
+        INTERACTS: {
+          value: "weight"
+        }
+      },
+      initialCypher: "MATCH (n)-[r:INTERACTS]->(m) RETURN n,r,m"
+    };
+
+    viz = new NeoVis.default(config);
+    viz.render();
+    console.log(viz);
+  }
+  </script>
+</head>
+
+<body onload="draw()">
+  <div class="container" id="mainContainer">
+    <div class="row g-3">
+      <form class="row g-3" id="dataForm" method="POST">
+        <div class="col-12">
+          <label for="quotationFile" class="form-label">报价文件</label>
+          <br>
+          <br>
+          <input type="file" class="form-control" id="quotationFile" accept=".xls,.xlsx">
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary" id="startBtn">开始分析</button>
+        </div>
+      </form>
+      <div class="col-12">
+        <label class="form-label">执行进度</label>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+            aria-valuemax="100" id="progressBar">0%</div>
+        </div>
+      </div>
+      <div class="col-12">
+        <label class="form-label">输出信息</label>
+        <br>
+        
+        <!-- neovis视图框 -->
+        <div id="viz">
+        </div>
+
+        <br>
+        <div class="col-4 div_float">
+          <button class="btn btn-primary" type="submit" value="Stabilize" id="stabilize">锁定</button>
+        </div>
+        <div class="col-4 div_float">
+          <button type="button" class="btn btn-primary">报价表生成</button>
+        </div>
+        <div class="col-4 div_float">
+          <button type="button" class="btn btn-primary">功能项分析</button>
+        </div>
+        <!-- <textarea class="form-control" id="logArea" disabled></textarea> -->
+      </div>
+    </div>
+
+  </div>
+  <script src="./renderer.js"></script>
+
+</body>
+<script>
+	$("#reload").click(function () {
+
+		var cypher = $("#cypher").val();
+
+		if (cypher.length > 3) {
+			viz.renderWithCypher(cypher);
+		} else {
+			console.log("reload");
+			viz.reload();
+
+		}
+
+	});
+
+	$("#stabilize").click(function () {
+		viz.stabilize();
+	})
+
+</script>
+</html>

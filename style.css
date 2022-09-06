@@ -1,0 +1,28 @@
+#logArea {
+    font-size: 14px;
+    height: 180px;
+}
+
+#startSpinner {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    bottom: 0px;
+    overflow: hidden;
+}
+
+/* #mainContainer{
+    display: none;
+} */
+
+#viz {
+    border: 1px solid lightgray;
+    font: 22pt arial;
+    height: 700px;
+}
+
+.div_float{
+    float: left;
+    text-align: center;
+}

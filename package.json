@@ -1,0 +1,22 @@
+{
+  "name": "my-electron-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^20.0.2"
+  },
+  "dependencies": {
+    "bootstrap": "^5.2.0",
+    "electron-fetch": "^1.7.4",
+    "electron-store": "^8.1.0",
+    "form-data": "^4.0.0",
+    "neovis.js": "^2.0.2"
+  },
+  "content_security_policy": "default-src 'self' style-src 'self' 'unsafe-inline';"
+}
